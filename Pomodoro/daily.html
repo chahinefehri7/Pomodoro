@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Serif+Display&family=Dela+Gothic+One&family=Gabarito:wght@400;500&family=Montserrat&family=Oxygen&family=Pacifico&family=Pixelify+Sans:wght@500&family=Prompt:wght@300;500&family=Roboto&family=Young+Serif&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="titlecountdown">30:00</title>
+    <style>
+        /* Gabarito */
+        /* DM Serif Display */
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            overflow-x: hidden;
+            background-color: #A8DADC;
+            z-index: 1;
+        }
+        body::-webkit-scrollbar{
+            background-color: #F1FAEE;
+            width: 2px;
+        }
+        .pomodoro{
+            background-color:#F1FAEE;
+            width: 400px;
+            height:350px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            border-radius: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .top{
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction:row;
+        }
+        .top a{
+            width: 35%;
+        }
+        .p{
+            font-family: 'Montserrat';
+            padding: 15px 10px;
+            width: 100%;
+            cursor: pointer;
+            background-color: #F1FAEE;
+            border: none;
+            border-bottom: 0.5px solid #212121;
+            font-size: 15px;
+            font-weight: lighter;
+            color:#212121;
+            transition: 0.5s;
+        }
+        .p:hover{
+            background-color:#e2ebdf;
+        }
+        /* the time style */
+        #countdown{
+            width: 100%;
+            margin-top: -20px;
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+            justify-content: center ;
+        }
+        #counter{
+            color: lightgray;
+            font-family: prompt;
+            margin-bottom: -40px;
+        }
+        .semicolone{
+            font-size: 140px;
+            letter-spacing: 5px;
+            font-family:'DM Serif Display';
+            color: #212121;
+        }
+        #w_seconds{
+            font-size: 140px;
+            letter-spacing: 5px;
+            font-family:'DM Serif Display';
+            color: #212121;
+        }
+        #w_minutes{
+            font-size: 140px;
+            letter-spacing: 5px;
+            font-family:'DM Serif Display';
+            color: #212121;
+        }
+ 
+        /* starting and stop button */
+        #starting{
+            margin-top: 10px;
+            width: 30%;
+            background-color: #212121;
+            border: 1px solid #212121;
+            color: #212121;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: #F1FAEE;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* to do goals bar  */
+        #sidebar{
+            float: left;
+            width: 300px;
+            height: 80vh;
+            background-color: #F1FAEE;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(0% , -50%);
+            border-top-right-radius: 40px;
+            border-bottom-right-radius: 40px;
+            padding: 10px;
+            transition: 1s;
+        }
+        #tasks{
+            font-family:'prompt';
+            color: #212121;
+            width: 80%;
+            margin: 15px 5%;
+            border-bottom: 1px solid #212121;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #tasks:hover{
+            margin-top:13px;
+            width: 83%;
+        }
+        #todoContainer{
+            width: 80%;
+            height: 80%;
+            margin: 0 5%;
+            overflow:hidden;
+            transition: 0.5s;
+        }
+        #todoContainer nav{
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        #todoContainer p{
+            width:fit-content;
+            font-family: prompt;
+            font-weight: lighter;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid #212121;
+            border-radius:50px;
+            font-size: 15px;
+            padding: 5px 10px;
+        }
+        #todoContainer nav span{
+            width: 10px;
+            height:10px;
+            border-radius: 50%;
+            margin: 5px 10px;
+            background-color:#E63946;
+        }
+        #addgoalnav{
+            width: 80%;
+            height: fit-content;
+            display: flex;
+            flex-direction: row;
+            margin: 10px 10px;
+            padding-left: 5%;
+            color: gray;
+        }
+        #addgoalnav input{
+            width: 80%;
+            font-family: prompt;
+            font-weight: lighter;
+            text-align: center;
+            border: 1px dotted gray;
+            border-radius:50px;
+            margin: 0 5px;
+            background: none;
+            outline: none;
+            transition: 0.3s;
+        }
+        .add{
+            width: 15px;
+            height:15px;
+            border: 1px dotted gray;
+            border-radius: 50%;
+            text-align: center;
+            display: flex;
+            margin: 5px 0;
+            padding: 1px;
+            justify-content: center;
+            align-items: center;
+        }
+        /* asking permesion for the importansy of the goal */
+        #importansy-question{
+            width: 100%;
+            height: 380%;
+            background-color: black;
+            position: absolute;
+            /* opacity: 0.55; */
+            opacity: 0;
+            z-index:0;
+            /* visibility:hidden; */
+            transition: 0.5s;
+        }
+        .colors{
+            width: 330px;
+            height: 280px;
+            padding: 20px;
+            position: fixed;
+            top: -50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            background-color: #F1FAEE;
+            opacity: 1;
+            z-index: 99;
+            transition: 1s;
+            border-radius: 30px;
+        }
+        .colors h1{
+            font-family:'DM Serif Display';
+            font-size: 30px;
+            font-weight: 900;
+        }
+        .colors nav{
+            width: 100%;
+            border-bottom: 1px solid gray;
+            font-family: 'prompt';
+            font-weight: lighter;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .colors span{
+            width: 15px;
+            height: 15px;
+            border-radius: 50px;
+            margin: 0 10px 0 0;
+        }
+        .important span{
+            background-color:#E63946;
+        }
+        .medium span{
+            background-color: #80ED99;
+        }
+        .not-a-deal span{
+            background-color:#011627;
+        }
+        #important-tasks{
+            width: 100%;
+            height: fit-content;
+        }
+        #medium-tasks{
+            width: 100%;
+            height: fit-content;
+        }
+        /* notes */
+        #notes{
+            background-color:#F1FAEE;
+            width: 350px;
+            height: 100vh;
+            padding-top: 20px;
+            position: absolute;
+            right: 0;
+            border-left: 1px solid lightblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.7s;
+            border-bottom-left-radius: 40px;
+            z-index: 6;
+        }
+        #notes header{
+            width: 80%;
+            height: 30px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #212121;
+            font-family: 'prompt';
+            font-size: 20px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        #headerp{
+            transition: 0.5s;
+            margin-left: -15px;
+        }
+        .notes-arrow{
+            width: 2px;
+            height: 20px;
+            background-color: #212121;
+            margin: 2px;
+            transition: 0.5s;
+            opacity: 0;
+        }
+        #notesContainer{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: scroll;
+        }
+        #notesContainer::-webkit-scrollbar{
+            width: 5px;
+            background-color: #212121;
+            border-radius: 50px;
+            border: none;
+        }
+        #notesContainer div{
+            width:80%;
+            height:fit-content;
+            border-radius: 30px;
+            padding: 20px 15px;
+            text-align: start;
+            background-color: #E63946;
+            margin-bottom: 10px;
+        }
+        #notesContainer div nav{
+            display: flex;
+            align-self: center;
+            width: 100%;
+        }
+        #notesContainer div nav img{
+            width: 15px;
+            height: 15px;
+            margin-left: 40px;
+            cursor: pointer;
+        }
+        #notesContainer h3{
+            font-family: prompt;
+            border-bottom: 1px solid #F1FAEE;
+            color: #F1FAEE;
+            font-weight: 900;
+            width: 80%;
+        }
+        #notesContainer div p{
+            font-family: Prompt;
+            font-size: 15px;
+            width: 90%;
+            font-weight: lighter;
+            color:#F1FAEE ;
+        }
+        #addnote{
+            margin: 30px 0;
+            width: 5vh;
+            padding: 10px;
+            height:5vh;
+            cursor: pointer;
+            border: 2px dashed #A8DADC;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #A8DADC;
+            transition: 0.2s;
+        }
+        /* open notes button */
+        #open-notes{
+            position: absolute;
+            top: 0;
+            right: -50%;
+            width: 200px;
+            border: none;
+            border-bottom-left-radius: 30px;
+            background-color: #F1FAEE;
+            font-family: 'prompt';
+            font-weight: 900;
+            font-size: 20px;
+            transition: 0.7s;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #open-notes:hover{
+            width: 220px;
+        }
+        /* adding a note */
+        #addnote:hover{
+            padding: 13px;
+            font-size: 35px;
+        }
+        /* designing-your-note */
+        #designing-your-note{
+            width: 350px;
+            height: 350px;
+            background-color: #F1FAEE;
+            border-radius: 30px;
+            padding: 10px;
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            z-index: 99;
+            transition: 0.7s;
+        }
+        .note-color{
+            width: 90%;
+            position: absolute;
+            top: -35px;
+            height: fit-content;
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+        }
+        .note-color span{
+            margin: 10px;
+            cursor: pointer;
+            transition: 0.5s;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+        }
+        #color1{
+            border: 3px solid #E63946;
+            background-color: #E63946;
+        }
+        #color2{
+            border: 3px solid #A8DADC;
+            background-color: #A8DADC;
+        }
+        #color3{
+            border: 3px solid #457B9D;
+            background-color: #457B9D;
+        }
+        #color4{
+            border: 3px solid #1D3557;
+            background-color: #1D3557;
+        }
+        #color5{
+            border: 3px solid #FFA9A3;
+            background-color: #FFA9A3;
+        }
+        #noteTitle{
+            width: 80%;
+            padding: 10px 10px 0px 10px;
+            margin: 10px;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #011627;
+            outline: none;
+            font-family: prompt;
+            font-weight: 900;
+            font-size: 25px;
+            color: #212121;
+        }
+        #noteTitle::placeholder{
+            color: #011627;
+        }
+        #noteContent{
+            background: none;
+            margin: 0 4%;
+            max-width: 90%;
+            max-height: 80%;
+            min-width: 90%;
+            min-height: 80%;
+            border: none;
+            outline: none;
+            font-family:'Gabarito';
+            font-weight:lighter ;
+            font-size: 17px;
+        }
+        #closeNote{
+            position: absolute;
+            top: 20px;
+            right:20px;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+        #saveNote{
+            width: 90px;
+            height: 40px;
+            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #212121;
+            color: aliceblue;
+            border: none;
+            border-radius: 50px;
+            position: absolute;
+            bottom: -50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            z-index: 99;
+            cursor: pointer;
+            transition: 0.7s 0.5s;
+            visibility: hidden;
+        }
+        #saveNote:hover{
+            transition: 0.5s 0s;
+            width: 100px;
+            background-color: #313131;
+        }
+        #saveEdit{
+            width: 90px;
+            height: 40px;
+            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #212121;
+            color: aliceblue;
+            border: none;
+            border-radius: 50px;
+            position: absolute;
+            bottom: -50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            z-index: 99;
+            cursor: pointer;
+            transition: 0.7s 0.5s;
+            visibility: hidden;
+        }
+        #saveEdit:hover{
+            transition: 0.5s 0s;
+            width: 100px;
+            background-color: #313131;
+        }
+        #choosenColorsDiv{
+            width: 190px;
+            height: 40px;
+            padding: 10px;
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background-color: #F1FAEE;
+            border-bottom-right-radius: 30px;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            font-family: 'prompt';
+            font-weight: 900;
+            transition: 0.7s;
+        }
+        #choosenColors{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #011627;
+            margin-right: 20px;
+        }
+        #writeNoteAlert{
+            position:absolute;
+            top: -50%;
+            left: 0;
+            padding: 10px 20px;
+            font-family: prompt;
+            font-weight: 900;
+            border-bottom-right-radius: 30px;
+            background-color: #F1FAEE;
+            z-index: 99;
+            transition: 0.7s;
+        }
+        .Notebtns{
+            width: 100px;
+            height: 40px;
+            padding: 10px;
+            font-family: prompt;
+            font-weight: 900;
+            border: none;
+            border-radius: 50px;
+            position: absolute;
+            z-index: 99;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            cursor: pointer;
+            visibility: hidden;
+        }
+        #editNote{
+            background-color: #e2ebdf;
+            bottom: -50%;
+            color: #011627;
+            transition: 0.7s 0.2s;
+        }
+        #changeNoteColor{
+            background-color: #e2ebdf;
+            bottom: -50%;
+            color: #011627;
+            transition: 0.7s 0.3s;
+        }
+        #delete{
+            background-color:#E63946;
+            color: aliceblue;
+            bottom: -50%;
+            transition: 0.7s 0.4s;
+        }
+        #editNote:hover{
+            transition: 0.5s 0s;
+            width: 150px;
+        }
+        #changeNoteColor:hover{
+            transition: 0.5s 0s;
+            width: 150px;
+        }
+        #delete:hover{
+            transition: 0.5s 0s;
+            width: 150px;
+        }
+        #reset{
+            margin-top: -20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        /* audio */
+        audio{
+            visibility: hidden;
+        }
+        main{
+            width: 100%;
+            height: 97.4vh;
+        }
+        footer{
+            width: 47%;
+            height: 230vh;
+            background-color: #F1FAEE;
+            margin: 10% 25% 0 25%;
+            padding: 3%;
+            border-radius: 40px;
+            font-family: prompt;
+            position: absolute;
+            z-index: 5;
+        }
+        footer h1{
+            width: 90%;
+        }
+        footer h3{
+            margin: 40px 0 ;
+            text-decoration: underline;
+        }
+        footer p{
+            color: lightgray;
+            
+        }
+        .footerlist1{
+            margin-left: 40px;
+            margin-top: -10px;
+        }
+        .footerlist1 li{
+            font-family: Roboto;
+            list-style:decimal;
+            margin: 5px 0;
+            color:#212121;
+        }
+        .footerlist2{
+            margin-left: 40px;
+            margin-top: -10px;
+            list-style:disc;
+        }
+        .footerlist2 li{
+            font-family: Roboto;
+            margin: 5px 0;
+            color:#212121;
+        }
+        footer nav{
+            width: 95%;
+            text-align: center;
+        }
+        b{
+            color: #E63946;
+            text-decoration: underline #FFA9A3;
+        }
+        .b2{
+            color: #011627;
+            text-decoration: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        hr{
+            margin: 20px 0;   
+        }
+        .hr{
+            margin: 40px 0;
+        }
+        .footer1{
+            margin: 12% 27% 0 23%;
+            padding: 3%;
+            z-index: 3;
+            background-color: #FFA9A3;
+        }
+        .footer2{
+            margin: 13% 28% 0 22%;
+            padding: 3%;
+            z-index: 2;
+            background-color: #E63946;
+        }
+        .footer3{
+            margin: 14% 30% 0 21%;
+            padding: 3%;
+            z-index: 1;
+            background-color: #1D3557;
+        }
+        .active{
+            font-weight: 900;
+            background-color:#e2ebdf;
+        }
+        .selectedPomoNumber{
+            background: none;
+            width: 100%;
+            padding: 10px 0px;
+            border:none;
+            outline: none;
+            text-align: center;
+        }
+        .pomoNumber{
+            margin-left: 15px;
+            color: lightgray;
+            border: none;
+            font-size: 12px;
+            font-family: 'Prompt';
+        }
+        #PomoNumberAlert{
+            width: 300px;
+            height: 40px;
+            padding: 10px;
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background-color: #F1FAEE;
+            border-bottom-right-radius: 30px;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            font-family: 'prompt';
+            font-weight: 900;
+            transition: 0.7s;
+            border: 1px solid #212121;
+            margin-top: -40px;
+        }
+    </style>
+</head>
+<body id="body">
+    <div id="importansy-question">
+    </div>
+    <div class="colors" id="colors">
+        <h1>how important this goal to you?</h1><hr>
+        <nav><input type="number" class="selectedPomoNumber" id="selectedPomoNumber" placeholder="Pomodoro Number"></nav>
+        <nav class="important" id="important"><span></span><p>important</p></nav>
+        <nav class="medium" id="medium"><span></span><p>medium</p></nav>
+        <nav class="not-a-deal" id="not-a-deal"><span></span><p>not a big deal</p></nav>
+    </div>
+    <div id="open-notes"><p>Open Your Notes</p></div>
+    <div id="notes">
+        <header id="notesheader"><span id="notes-arrow-1" class="notes-arrow"></span><span id="notes-arrow-2" class="notes-arrow"></span><p id="headerp">Your Notes</p></header>
+        <div id="notesContainer">
+            <div class="motivation" id="0">
+                <nav><h3>Trick for Today!</h3><img src="more.png" id="-1"  onclick="moreabout(this)"></nav>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore, eos totam mollitia blanditiis pariatur omnis libero eius. Nihil impedit omnis illum quas</p>
+            </div>
+        </div>
+        <nav id="addnote">+</nav>
+    </div>
+    <div id="designing-your-note">
+        <img src="close.png" alt="close" id="closeNote">
+        <nav class="note-color"><span id="color1"></span><span id="color2"></span><span id="color3"></span><span id="color4"></span><span id="color5"></span></nav>
+        <input type="text" name="noteTitle" id="noteTitle" placeholder="Note Title...">
+        <textarea name="noteContent" id="noteContent" cols="30" rows="10" placeholder="write down your note"></textarea>
+    </div>
+    <button id="saveNote">Save Note</button>
+    <button id="saveEdit">Save Edits</button>
+    <div id="choosenColorsDiv">
+        <span id="choosenColors"></span><h3>Note Color</h3>
+    </div>
+    <div id="PomoNumberAlert">
+        <h3>How many Pomodoros to Get this work done</h3>
+    </div>
+    <div id="writeNoteAlert">
+        <h3>Write Your Note !</h3>
+    </div>
+    <button id="editNote" class="Notebtns">Edit</button><br><button id="changeNoteColor" class="Notebtns">Colors</button><br><button id="delete" class="Notebtns">Delete</button>
+    <!-- <main class="mainS" id="mainS">
+        <div id="allsettings">
+            <img src="close.png" style="width: 40px; height:40px; float:right; position: absolute; top: 5px; right: 5px; cursor: pointer;" onclick="closesettings()">
+        <a href="daily.html" style="text-decoration: none;"><h1>DailyPomodoro</h1></a>
+        <h2 class="h2S">settings</h2>
+        <div class="color"
+            <p>color's:</p>
+            background:<input type="color" name="color" class="colorS" id="backgroundcolorpick" onchange="changebackgroundcolor()">pomodoro: <input type="color"id="pomodorocolorpick" class="colorS" onchange="changepomodorocolor()">time color:<input type="color" id="timecolorpick" class="colorS">
+        </div>
+        <div class="timeS">
+            <p>Time(minutes):</p>
+            <label for="pomodoroS"><div>pomodoro<input type="number" name="pomodoroS" class="pomodoroS" id="pomodoroS" value="30"></div><div>Short Brake<input type="number" name="pomodoroS" class="pomodoroS" id="shortbreakS" value="5"></div><div>Long Brake<input type="number" name="pomodoroS" class="pomodoroS" id="longbreakS" value="15"></div></label>
+        </div>
+        <div class="alarmsound">
+            <p>alarm sound:</p>
+            <label for="Lalarm" style="display:block ;"><select name="alarm" id="sound">
+                <option value="Bell">Bell</option>
+                <option value="Bird">Bird</option>
+                <option value="Digital">Digital</option>
+                <option value="kitchen">Kitchen</option>
+                <option value="Wood">Wood</option>
+            </select><br>
+            <label for="ala
+            rm"><h5 style="position: absolute; margin-left:-50px; margin-bottom:-30px;">volum :</h5><input type="number" name="alarm"  style="margin:30px 10px; color: gray; padding: 5px 5px; border-radius: 8px; width: 40px;" id="volumnumber" value="50" onchange="volumF2()" ></label><input type="range" name="alarm" id="volumrange" value="50" onchange="volumF()" max="100"></label>
+            <select name="backgroundm" id="backgroundm">
+                <option value="lofi.mp3">lofi song</option>
+            </select>
+            <nav style="display: flex; align-items: center; width: 100%; padding-left: 40%; margin: 20px 0;"><h3>play music:</h3><img src="play.png" id="audioicon"></nav>
+            <div id="progress" onmouseover="progresscircleF()"><div id="progressbar"><nav id="progresscircle"></nav></div></div>
+        </div> 
+        <div style="border-bottom: 1px solid rgb(172, 172, 172);"><a href="daily.html"><input type="submit" value="done" class="buttonsubmit"></a></div>
+        <p style="text-align: center; color:rgb(172, 172, 172); font-weight: normal; margin-top: 40px;">you can study or do your work with the settings that help <br> you to focus and do so mush better<br> in your work</p>
+        </div>
+    </main> -->
+    
+<main>
+    <!-- <div class="header" id="theheader">
+        <div class="logo"><a href="daily.html" style="text-decoration: none; color:#fff;" id="thetitle">DailyPomodoro</a></div><img class="optionimg"  id="selectText" src="gear-option.png" alt="option" onclick="gearrotation()"><a href="joinus.html"><img class="joinusimg" src="group.png" alt="joinus"></a>
+    </div>
+    <div class="LIST">
+        <ul id="list" class="hide">
+            <li class="options"><a href="#"><p>more</p></a></li><br>
+            <li class="options"><a href="#"><p>polyce</p></li></a><br>
+            <li class="options"><a href="#"><p>about</p></li></a>
+            <li class="options"><p onclick="opensettings()">settings</p></li>
+        </ul>
+    </div> -->
+    <div class="pomodoro" id="thepomodoro" >
+        <div class="top">
+            <input type="button" onclick="pomodoro()" value="Pomodoro" class="p" id="pomodoroBtn">
+            <input type="button" onclick="shortBreak()" value="Short Break" class="p" id="shortBreakBtn">
+            <input type="button" onclick="longBreak()" value="Long Break" class="p" id="longBrakBtn">
+        </div><br>
+            <p id="counter">0</p>
+            <nav id="countdown"><p id="w_minutes">30</p><p class="semicolone">:</p><p id="w_seconds">00</p></nav>
+            <img src="undo.png" alt="reset" id="reset"><br>
+        <input type="button" value="START" id="starting" onclick="timer()"><br>
+    </div>
+    <div id="sidebar">
+        <div id="tasks">Tasks</div>
+        <nav id="addgoalnav"><span class="add">+</span><input type="text" name="goals" id="goals" placeholder="add a new goal !"></nav>
+        <div class="to-dos" id="todoContainer" >
+            <div id="important-tasks">
+                <nav ondblclick="deletegoal(this)"><span> </span><p onclick="linethrought(this)">i need to do math</p></nav>
+            </div>
+            <div id="medium-tasks">
+            </div>
+            <div id="not-a-big-deal-tasks">
+            </div>
+        </div>
+    </div>
+    <!-- <iframe src="goals.html" frameborder="0" id="goals"></iframe> -->
+    <audio id="backgroundmusic">
+        <source src="lofi.mp3">
+    </audio>
+    <audio src="tic-tac-27828.mp3" id="tictac"></audio>
+    <audio src="clock-alarm-8761.mp3" id="alarm"></audio>
+    <audio src="mixkit-quest-game-interface-click-1139.wav" id="mouseClick"></audio>
+    <audio src="close-click.wav" id="mouseClick2"></audio>
+    <audio src="addnote.wav" id="mouseClick3"></audio>
+    <audio src="gate-latch-click.wav" id="mouseClick4"></audio>
+
+</main>
+<footer>
+    <h1>An online Pomodoro Timer to boost your productivity</h1>
+    <h3>What is PomoDoit?</h3>
+    <p>Pomofocus is a customizable pomodoro timer that works on desktop & mobile browser. The aim of this app is to help you focus on any task you are working on, such as study, writing, or coding. This app is inspired by <b>Pomodoro Technique</b> which is a time management method developed by Francesco Cirillo.</p>
+    <h3>What is Pomodoro Technique?</h3>
+    <p>The Pomodoro Technique is created by Francesco Cirillo for a more productive way to work and study. The technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks. Each interval is known as a pomodoro, from the Italian word for 'tomato', after the tomato-shaped kitchen timer that Cirillo used as a university student. - <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique"><b>Wikipedia</b></a></p>
+    <h3>How to use the Pomodoro Timer?</h3>
+    <ul class="footerlist1">
+        <li><b class="b2">Add tasks</b> to work on today</li>
+        <li><b class="b2">Set estimate pomodoros</b> (1 = 25min of work) for each tasks</li>
+        <li><b class="b2">Select a task</b> to work on</li>
+        <li><b class="b2">Start timer</b> and focus on the task for 25 minutes</li>
+        <li><b class="b2">Take a break</b>for 5 minutes when the alarm ring</li>
+        <li><b class="b2">Iterate </b>3-5 until you finish the tasks</li>
+    </ul>
+    <h3>Basic Features</h3>
+    <ul class="footerlist2">
+        <li><b class="b2">Add tasks</b> to work on today</li>
+        <li><b class="b2">Set estimate pomodoros</b> (1 = 25min of work) for each tasks</li>
+        <li><b class="b2">Select a task</b> to work on</li>
+        <li><b class="b2">Start timer</b> and focus on the task for 25 minutes</li>
+        <li><b class="b2">Take a break</b>for 5 minutes when the alarm ring</li>
+        <li><b class="b2">Iterate </b>3-5 until you finish the tasks</li>
+    </ul>
+    <h3>Premium Features</h3>
+    <ul class="footerlist2">
+        <li><b class="b2">AAdd Projects:</b> to work on today</li>
+        <li><b class="b2">Yearly Reports:</b> (1 = 25min of work) for each tasks</li>
+        <li><b class="b2">Download Reports:</b> to work on</li>
+        <li><b class="b2">No Template Limit: </b> and focus on the task for 25 minutes</li>
+        <li><b class="b2"> Todoist Integration:</b>for 5 minutes when the alarm ring</li>
+        <li><b class="b2">Webhook Integration:  </b>3-5 until you finish the tasks</li>
+    </ul>
+    <hr class="hr">
+    <nav>Made by <a href="#"><b class="b2">chahine fehri</b></a></nav>
+</footer>
+<footer class="footer1"></footer>
+<footer class="footer2"></footer>
+<footer class="footer3"></footer>
+<script>
+
+
+audioicon.addEventListener('click',function(){
+    if(backgroundmusic.paused){
+        backgroundmusic.play();
+        audioicon.src="pause.png"
+    }else{
+        backgroundmusic.pause();
+        audioicon.src="play.png"
+    }
+
+})
+
+backgroundmusic.ontimeupdate = function(e){
+    progressbar.style.width = Math.floor(backgroundmusic.currentTime*100/backgroundmusic.duration)+"%"
+}
+progress.addEventListener('click',function(e){
+    backgroundmusic.currentTime = ((e.offsetX/progress.offsetWidth) * backgroundmusic.duration);
+})
+progress.addEventListener('mouseover',function(){
+    progresscircle.style.visibility = "visible"
+})
+
+progress.addEventListener('mouseout',function(){
+    progresscircle.style.visibility = "hidden"
+})
+
+function volumF2(){
+    volumrange.value=volumnumber.value
+}
+</script>
+    <script src="java.js"></script>
+</body>
+</html>
